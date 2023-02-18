@@ -1,7 +1,7 @@
-resource "kubernetes_cluster_role" "nginx" {
+resource "kubernetes_cluster_role" "nginx_ingress" {
   metadata {
     name   = local.app_name
-    labels = local.commonLabels
+    labels = local.labels
   }
 
   rule {
@@ -47,19 +47,19 @@ resource "kubernetes_cluster_role" "nginx" {
   }
 }
 
-resource "kubernetes_cluster_role_binding" "nginx" {
+resource "kubernetes_cluster_role_binding" "nginx_ingress" {
   metadata {
     name   = local.app_name
-    labels = local.commonLabels
+    labels = local.labels
   }
   role_ref {
     api_group = "rbac.authorization.k8s.io"
     kind      = "ClusterRole"
-    name      = kubernetes_cluster_role.nginx.id
+    name      = kubernetes_cluster_role.nginx_ingress.id
   }
   subject {
     kind      = "ServiceAccount"
-    name      = kubernetes_service_account.nginx.metadata.0.name
-    namespace = kubernetes_service_account.nginx.metadata.0.namespace
+    name      = kubernetes_service_account.nginx_ingress.metadata.0.name
+    namespace = kubernetes_service_account.nginx_ingress.metadata.0.namespace
   }
 }

@@ -70,7 +70,7 @@ resource "kubernetes_deployment" "nginx_ingress" {
         }
 
         container {
-          image             = "ingress-nginx/controller:${var.nginx_ingress_controller_version}"
+          image             = "${var.nginx_image}"
           name              = "nginx-ingress-controller"
           image_pull_policy = "IfNotPresent"
           lifecycle {
@@ -85,7 +85,7 @@ resource "kubernetes_deployment" "nginx_ingress" {
             "--configmap=$(POD_NAMESPACE)/${kubernetes_config_map.nginx_ingress.metadata.0.name}",
             "--publish-service=$(POD_NAMESPACE)/${kubernetes_service.nginx_ingress.metadata.0.name}",
             "--election-id=${local.app_name}-leader",
-            "--ingress-class=${var.class_name}"
+            "--ingress-class=nginx"
           ]
           security_context {
             capabilities {

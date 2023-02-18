@@ -3,6 +3,11 @@ locals {
     # set by nginx: x-request-id header or auto generated
     "x-request-id" = "$req_id"
   }
+
+  default_request_headers = {
+    "true-client-ip" = "$http_true_client_ip"
+    "x-request-id" = "$req_id"
+  }
 }
 
 resource "kubernetes_config_map" "request_headers" {
