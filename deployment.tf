@@ -84,7 +84,7 @@ resource "kubernetes_deployment" "nginx_ingress" {
             "/nginx-ingress-controller",
             "--configmap=$(POD_NAMESPACE)/${kubernetes_config_map.nginx_ingress.metadata.0.name}",
             "--publish-service=$(POD_NAMESPACE)/${kubernetes_service.nginx_ingress.metadata.0.name}",
-            "--election-id=${local.app_name}-leader",
+            "--election-id=ingress-controller-leader",
             "--ingress-class=nginx"
           ]
           security_context {
